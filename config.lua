@@ -16,7 +16,7 @@ vim.cmd [[
   ]]
 
 -- Set a compatible clipboard manager
-vim.g.clipboard = {
+vim.g.clipboard    = {
   copy = {
     ["+"] = "win32yank.exe -i --crlf",
     ["*"] = "win32yank.exe -i --crlf",
@@ -27,22 +27,24 @@ vim.g.clipboard = {
   },
 }
 
+vim.opt.timeoutlen = 100
 vim.keymap.set('n', '<M-h>', '<cmd>BufferLineCyclePrev<cr>', { silent = true })
 vim.keymap.set('n', '<M-l>', '<cmd>BufferLineCycleNext<cr>', { silent = true })
+vim.keymap.set('n', "<C-k>", '<cmd>lua vim.lsp.buf.signature_help()<CR>', { silent = true })
 
+lvim.lsp.installer.setup.automatic_installation           = false
 
-lvim.builtin.telescope.defaults.layout_config.width = 0.95
+lvim.builtin.telescope.defaults.layout_config.width       = 0.95
 
-lvim.builtin.which_key.setup.plugins.presets.g = true
+lvim.builtin.which_key.setup.plugins.presets.g            = true
 lvim.builtin.which_key.setup.plugins.presets.text_objects = true
-lvim.builtin.which_key.setup.plugins.presets.z = true
-lvim.builtin.which_key.setup.plugins.presets.operators = true
+lvim.builtin.which_key.setup.plugins.presets.z            = true
+lvim.builtin.which_key.setup.plugins.presets.operators    = true
+lvim.builtin.nvimtree.setup.renderer.root_folder_label    = false
+lvim.format_on_save.enabled                               = true
 
-lvim.builtin.nvimtree.setup.renderer.root_folder_label = false
 
-vim.opt.timeoutlen = 100
 
-lvim.format_on_save.enabled = true
 
 local linters = require "lvim.lsp.null-ls.linters"
 linters.setup {
@@ -69,6 +71,12 @@ lvim.plugins = {
         panel = { enabled = false }
       })
     end
+  },
+  {
+    "ray-x/lsp_signature.nvim",
+    event = "VeryLazy",
+    opts = {},
+    config = function(_, opts) require 'lsp_signature'.setup(opts) end
   },
   {
     "folke/tokyonight.nvim",
@@ -109,6 +117,14 @@ lvim.plugins = {
       timeout = 300,
       stages = "fade",
     }
+  },
+  { 'echasnovski/mini.icons', version = false },
+  {
+    'echasnovski/mini.ai',
+    version = false,
+    config = function()
+      require('mini.ai').setup()
+    end
   },
   {
     "debugloop/telescope-undo.nvim",
